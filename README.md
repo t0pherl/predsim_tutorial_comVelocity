@@ -1,6 +1,6 @@
-# Tutorial: 3D Predictive Simulations of Walking
+# Tutorial: 3D Predictive Simulations of Amputee Walking
 
-This tutorial aims to guide users through the steps required to generate 3D predictive simulations of walking while leveraging [OpenSimAD](https://github.com/antoinefalisse/opensimAD). OpenSimAD is a custom version of OpenSim that supports algorithmic differentiation.
+This tutorial adapts the predictive simulation framework developed by Antoine Falisse to better represent the physical characteristics and control strategies of individuals with transtibial amputation. The simulation framework leverages [OpenSimAD](https://github.com/antoinefalisse/opensimAD). OpenSimAD is a custom version of OpenSim that supports algorithmic differentiation. 
 
 The generated predictive simulations should look like this:
 <p align="center">
