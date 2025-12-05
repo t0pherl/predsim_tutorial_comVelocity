@@ -70,7 +70,7 @@ In this part, we will generate the predictive simulations. We use direct colloca
 
 # Visualize simulations in OpenSim
 1. Launch OpenSim GUI
-2. Open model, eg `OpenSimModel/Hamner_modified/Model/Hamner_modified_scaled.osim`
+2. Open model, eg `OpenSimModel/Hamner_modified/Model/Hamner_modified_amp_scaled.osim`
 3. Load motion, eg `Results/Case_0/motion.mot`
 4. Associate Motion Data, eg `Results/Case_0/GRF.mot`
 
