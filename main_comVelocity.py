@@ -2,6 +2,8 @@
     Author: Antoine Falisse
     Edited by Christopher Long (CL) on 12/06/2024 to add CoM velocity term in cost function
     *Search CL ADDED to find all changes* 
+    Edited by Yufan He (YH) on 12/05/2025 to add passive torque on right ankle
+    *Search YH ADDED to find all changes*
 
     This script formulates and solves a trajectory optimization problem such
     as to generate a three-dimensional muscle-driven predictive simulation of
@@ -70,14 +72,14 @@ for case in cases:
         
     ###########################################################################
     # Problem formulation settings.
-    targetSpeed = 1.33 # default target walking.
+    targetSpeed = 1.2 # default target walking.
     if 'targetSpeed' in settings[case]:
         targetSpeed = settings[case]['targetSpeed']
         
     # By default, we simulate for half a gait cycle. Set to "full" to simulate
     # for a full gait cycle. Simulating for a full gait cycle is useful to
     # the effect of for example asymmetries in muscle path or parameters.
-    gaitCycleSimulation = "half" # 
+    gaitCycleSimulation = "full" # 
     if 'gaitCycleSimulation' in settings[case]:
         gaitCycleSimulation = settings[case]['gaitCycleSimulation']
         
@@ -90,7 +92,7 @@ for case in cases:
                'activationTerm': 2000,
                'jointAccelerationTerm': 50000,
                'armExcitationTerm': 1000000,
-               'passiveTorqueTerm': 1000, 
+               'passiveTorqueTerm': 2, 
                'controls': 0.001,
                'comVelocityTerm': 1000} # CL added this
     if 'metabolicEnergyRateTerm' in settings[case]:
@@ -1023,9 +1025,18 @@ for case in cases:
             passiveTorque_j = {}
             passiveTorquesj = ca.MX(nPassiveTorqueJoints, 1)
             for cj, joint in enumerate(passiveTorqueJoints):
-                passiveTorque_j[joint] = f_passiveTorque[joint](
+                # YH ADDED: Joints passive torque
+                tau_pass = f_passiveTorque[joint](
                     Qskj_nsc[joints.index(joint), j+1], 
                     Qdskj_nsc[joints.index(joint), j+1])
+
+                # YH ADDED: Additional prosthetic passive torque at ankle: M = -K * q，K=373.35
+                if joint == 'ankle_angle_r':
+                    K_pros = 373.35  # Stiffness <-- change this value for a different stiffness
+                    q_ankle_r = Qskj_nsc[joints.index(joint), j+1]
+                    tau_pass = tau_pass + (-K_pros * q_ankle_r)
+
+                passiveTorque_j[joint] = tau_pass
                 passiveTorquesj[cj, 0] = passiveTorque_j[joint]
                 
             linearPassiveTorqueArms_j = {}
