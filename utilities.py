@@ -478,11 +478,15 @@ def getIdxIC_3D(GRF_opt, threshold, gaitCycleSimulation='half'):
     elif gaitCycleSimulation == 'full':
         # TODO no much testing done here
         contacts = np.where(GRF_opt > threshold)[0]
-        for contact in contacts:
-            if contact > 0:
-                if GRF_opt[contact-1] < threshold:
-                    idxIC = contact
-        legIC = "right"            
+        idxIC = 0
+        legIC = "right"
+
+        if contacts.size > 0:
+            for contact in contacts:
+                if contact > 0:
+                    if GRF_opt[contact-1] < threshold:
+                        idxIC = contact
+                        break          
             
     return idxIC, legIC
 
