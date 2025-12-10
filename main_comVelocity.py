@@ -139,9 +139,9 @@ for case in cases:
     # %% Paths.
     pathMain = os.getcwd()
     pathOpenSimModel = os.path.join(pathMain, 'OpenSimModel')
-    pathData = os.path.join(pathOpenSimModel, 'Hamner_modified_amp')
+    pathData = os.path.join(pathOpenSimModel, model)
     pathModelFolder = os.path.join(pathData, 'Model')
-    modelName = 'Hamner_modified_scaled_amp'
+    modelName = '{}_scaled'.format(model)
     pathModel = os.path.join(pathModelFolder, modelName + '.osim')
     pathMotionFile4Polynomials = os.path.join(
         pathOpenSimModel, 'templates', 'MuscleAnalysis', 'dummy_motion.mot')
@@ -1986,6 +1986,7 @@ for case in cases:
                                 "stride_length": stride_length_GC}              
             np.save(os.path.join(pathTrajectories, 'optimaltrajectories.npy'),
                     optimaltrajectories)
+
 
 
 
